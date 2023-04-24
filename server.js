@@ -1,17 +1,24 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import userRoutes from './routes/user.route.js';
-import connectDB from './config/db.js'
+import connectDB from './config/db.js';
+import helmet from 'helmet';
+import morgan from 'morgan';
 const app = express();
-dotenv.config({path: './config/.env'})
+dotenv.config({path: './config/.env'});
 
 // DB CONNECTION
 connectDB();
 
 // MIDDLE WARES
-app.use(bodyParser.json())
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({policy: 'cross-origin'}));
+app.use(morgan('common'));
+app.use(bodyParser.json());
+app.use(cors());
 app.use('/api/v1/users', userRoutes);
 
 
-app.listen(process.env.PORT, () => console.log(`Server is listening on port ${process.env.PORT}`))
+app.listen(process.env.PORT, () => console.log(`Server is listening on port ${process.env.PORT}`));

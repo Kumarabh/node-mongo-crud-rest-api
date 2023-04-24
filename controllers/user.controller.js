@@ -17,7 +17,7 @@ const createUser = async (req, res, next) => {
         // res.status(200).json({message: 'success', response: allUsers })
     } catch (e) {
         console.log(e);
-        return res.status(500).json({success: false, message: 'Internal server issue.', data: null})
+        return res.status(500).json({success: false, message: e.message, data: null})
     }
 
 }
@@ -38,7 +38,7 @@ const updateUser = async (req, res, next) => {
 
     } catch (e) {
         console.log(e);
-        return res.status(500).json({success: false, message: e, data: null})
+        return res.status(500).json({success: false, message: e.message, data: null})
 
     }
 }
@@ -47,8 +47,8 @@ const deleteUser = async (req, res, next) => {
     try {
         await userModel.findOneAndDelete({_id: req.params.id});
         res.status(200).json({success: true, message: 'User deleted.', data: null})
-    } catch (error) {
-        res.status(400).json({success: false, message: 'User not delted.', data: null})
+    } catch (e) {
+        res.status(400).json({success: false, message: e.message, data: null})
     }
 
 }
@@ -60,8 +60,8 @@ const getUserById = async (req, res, next) => {
 
         if(!user) res.status(200).json({success: true, message: 'User not found.', data: null});
 
-    } catch (error) {
-        res.status(400).json({success: false, message: 'User not found.', data: null})
+    } catch (e) {
+        res.status(400).json({success: false, message: e.message, data: null})
     }
 
 }
